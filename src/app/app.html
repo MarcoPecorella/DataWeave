@@ -1,0 +1,124 @@
+<div class="app-shell">
+  <header class="app-header">
+    <div class="app-title">Data Forge Grid</div>
+    <div class="app-subtitle">Phase 1 foundation MVP demo</div>
+  </header>
+
+  <section class="app-controls">
+    <div class="control-label">Rows</div>
+    <div class="control-options">
+      @for (option of rowCountOptions; track option) {
+        <button
+          class="control-pill"
+          [class.is-active]="rowCount() === option"
+          (click)="setRowCount(option)"
+        >
+          {{ option.toLocaleString() }}
+        </button>
+      }
+    </div>
+    <button class="control-pill" (click)="toggleTheme()">
+      Theme: {{ isDark() ? 'Dark' : 'Light' }}
+    </button>
+  </section>
+
+  <section class="app-controls">
+    <div class="control-label">Columns</div>
+    <div class="control-options">
+      @for (col of columns; track col.id) {
+        <div class="control-chip">
+          <button
+            class="control-pill"
+            [class.is-active]="columnVisibility()[col.id]"
+            (click)="toggleColumn(col.id)"
+          >
+            {{ col.header }}
+          </button>
+          <div class="control-reorder">
+            <button class="control-icon" (click)="moveColumn(col.id, -1)">▲</button>
+            <button class="control-icon" (click)="moveColumn(col.id, 1)">▼</button>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="app-content">
+    <div class="demo-panel">
+      <div class="panel-header">
+        <div class="panel-title">List mode</div>
+        <div class="panel-subtitle">Virtualized rows with sorting and selection.</div>
+      </div>
+      <dw-grid
+        class="demo-grid"
+        [class.dw-theme-dark]="isDark()"
+        [rows]="rows()"
+        [columns]="columns"
+        [rowHeight]="36"
+        [headerHeight]="38"
+        [selectionType]="selectionType"
+        [theme]="{ density: 'standard' }"
+        [editable]="true"
+        [pagination]="pagination()"
+        [contextMenu]="contextMenu"
+        [columnOrder]="columnOrder()"
+        [columnVisibility]="columnVisibility()"
+        quickFilterColumn="name"
+        [headerMenuHeight]="260"
+        (pageChange)="pagination.set($event)"
+        (columnOrderChange)="columnOrder.set($event)"
+        (columnVisibilityChange)="columnVisibility.set($event)"
+      ></dw-grid>
+    </div>
+
+    <div class="demo-panel">
+      <div class="panel-header">
+        <div class="panel-title">Grid mode</div>
+        <div class="panel-subtitle">Card layout preview for Phase 2.</div>
+      </div>
+      <div class="card-grid">
+        @for (row of rows(); track row.id) {
+          <div class="card">
+            <div class="card-title">{{ row.name }}</div>
+            <div class="card-meta">
+              <span class="status-pill"
+                    [class.is-active]="row.status === 'Active'"
+                    [class.is-paused]="row.status === 'Paused'">
+                {{ row.status }}
+              </span>
+              <span class="card-region">{{ row.region }}</span>
+            </div>
+            <div class="card-value">${{ row.revenue.toLocaleString() }}</div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="demo-panel">
+      <div class="panel-header">
+        <div class="panel-title">Spreadsheet mode</div>
+        <div class="panel-subtitle">Matrix layout preview for Phase 2.</div>
+      </div>
+      <dw-grid
+        class="demo-grid"
+        [class.dw-theme-dark]="isDark()"
+        [rows]="rows()"
+        [columns]="columns"
+        [rowHeight]="32"
+        [headerHeight]="32"
+        [selectionType]="'single'"
+        [theme]="{ density: 'compact' }"
+        [editable]="true"
+        [columnOrder]="columnOrder()"
+        [columnVisibility]="columnVisibility()"
+        mode="sheet"
+      ></dw-grid>
+    </div>
+  </section>
+
+  <ng-template #statusTemplate let-value="value">
+    <span class="status-pill" [class.is-active]="value === 'Active'" [class.is-paused]="value === 'Paused'">
+      {{ value }}
+    </span>
+  </ng-template>
+</div>

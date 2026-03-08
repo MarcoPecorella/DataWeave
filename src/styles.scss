@@ -1,0 +1,3 @@
+@use '../projects/data-weave/src/lib/theme/palette' as p;
+
+html { @include p.theme-vars(p.$theme-dark); }
