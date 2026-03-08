@@ -22,7 +22,7 @@ interface DemoRow {
   selector: 'app-root',
   imports: [DwGridComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.scss'
 })
 export class App implements AfterViewInit {
   protected readonly title = signal('DataWeave');

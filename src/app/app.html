@@ -64,6 +64,7 @@
         [columnOrder]="columnOrder()"
         [columnVisibility]="columnVisibility()"
         quickFilterColumn="name"
+        [scrollVelocity]="'slow'"
         [headerMenuHeight]="260"
         (pageChange)="pagination.set($event)"
         (columnOrderChange)="columnOrder.set($event)"

@@ -1,3 +1,57 @@
 @use '../projects/data-weave/src/lib/theme/palette' as p;
+@use '../projects/data-weave/src/lib/theme/tokens'  as t;
 
-html { @include p.theme-vars(p.$theme-dark); }
+// ─── CSS custom properties ────────────────────────────────────────────────────
+// Applied globally so the entire app (including app.css) can use var(--*)
+:root {
+  @include p.theme-vars(p.$theme-light);
+}
+
+.dw-theme-dark {
+  @include p.theme-vars(p.$theme-dark);
+}
+
+// ─── Global reset / base ──────────────────────────────────────────────────────
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: t.$font-ui;
+  font-size: t.$text-md;
+  color: var(--text-primary);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ─── Scrollbar ────────────────────────────────────────────────────────────────
+::-webkit-scrollbar {
+  width:  var(--scrollbar-size, 8px);
+  height: var(--scrollbar-size, 8px);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+
+  &:hover {
+    background: var(--accent-secondary);
+    background-clip: content-box;
+  }
+}
